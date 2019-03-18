@@ -15,10 +15,15 @@ public class SyncThread implements Runnable{
             syncObjectBlock1();
         }else if (threadName.startsWith("C")){
             syncObjectMethod1();
+        }else if (threadName.startsWith("D")){
+            syncObjectBlock1();
+        }else if (threadName.startsWith("E")){
+            syncObjectMethod1();
         }
     }
 
     /**
+     * 对象实例锁
      * synchronized 修饰非静态方法
      */
     private synchronized void syncObjectMethod1() {
@@ -33,6 +38,7 @@ public class SyncThread implements Runnable{
     }
 
     /**
+     * 对象实例锁
      * 方法中有synchronized(this|object){} 同步代码块
      */
     private void syncObjectBlock1() {
@@ -59,5 +65,25 @@ public class SyncThread implements Runnable{
         }catch ( InterruptedException e){
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 类锁
+     */
+    private void syncClassblock1(){
+        System.out.println(Thread.currentThread().getName() + "_SyncClassBlock1: " + new SimpleDateFormat("HH:mm:ss").format(new Date()));
+        synchronized(SyncThread.class){
+            try {
+                System.out.println(Thread.currentThread().getName() + "_SyncClassBlock1_Start: " + new SimpleDateFormat("HH:mm:ss").format(new Date()));
+                Thread.sleep(1000);
+                System.out.println(Thread.currentThread().getName() + "_SyncClassBlock1_End: " + new SimpleDateFormat("HH:mm:ss").format(new Date()));
+            } catch (InterruptedException e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private synchronized static void syncClassMethod1(){
+
     }
 }
